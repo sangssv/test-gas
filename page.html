@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+  <style>
+    .row {
+      display: flex;
+      border-bottom: 1px solid;
+      padding: 5px 0;
+    }
+    
+    .note {
+      display: flex;
+      align-items: center;
+    }
+    
+    .color {
+      width: 40px;
+      height: 25px;
+      margin-left: 30px;
+      margin-right: 5px;
+    }
+    
+    .core {
+      background-color: darkorange;'
+      color: #fff !important;
+    }
+    
+    .new {
+      background-color: red;
+      color: #fff !important;
+    }
+
+    .no {
+      width: 30px;
+    }
+
+    .title {
+      width: 50px;
+    }
+
+    .no,
+    .title {
+      font-size: 12px;
+    }
+
+    .content {
+      width: calc(100% - 80px);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 79px;
+    }
+
+    .product-image img {
+      width: inherit;
+      height: inherit;
+      object-fit: scale-down;
+      object-position: left bottom;
+    }
+
+    .product-name,
+    .product-upc {
+      font-size: 9px;
+      flex: 1;
+    }
+    
+    .product-image,
+    .product-name,
+    .product-upc {
+      padding-right: 5px;
+    }
+    
+    .col-span-1 {
+      flex-grow: 1;
+    }
+
+    .col-span-2 {
+      flex-grow: 2;
+    }
+
+    .col-span-3 {
+      flex-grow: 3;
+    }
+
+    .col-span-4 {
+      flex-grow: 4;
+    }
+
+    .col-span-5 {
+      flex-grow: 5;
+    }
+
+    .col-span-6 {
+      flex-grow: 6;
+    }
+
+    .col-span-7 {
+      flex-grow: 7;
+    }
+
+    .col-span-8 {
+      flex-grow: 8;
+    }
+
+    .col-span-9 {
+      flex-grow: 9;
+    }
+
+    .col-span-10 {
+      flex-grow: 10;
+    }
+    
+    .lds-roller {
+      display: inline-block;
+      position: relative;
+      width: 64px;
+      height: 64px;
+    }
+    .lds-roller.hide {
+      display: none !important;
+    }
+    .lds-roller div {
+      animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      transform-origin: 32px 32px;
+    }
+    .lds-roller div:after {
+      content: " ";
+      display: block;
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #000;
+      margin: -3px 0 0 -3px;
+    }
+    .lds-roller div:nth-child(1) {
+      animation-delay: -0.036s;
+    }
+    .lds-roller div:nth-child(1):after {
+      top: 50px;
+      left: 50px;
+    }
+    .lds-roller div:nth-child(2) {
+      animation-delay: -0.072s;
+    }
+    .lds-roller div:nth-child(2):after {
+      top: 54px;
+      left: 45px;
+    }
+    .lds-roller div:nth-child(3) {
+      animation-delay: -0.108s;
+    }
+    .lds-roller div:nth-child(3):after {
+      top: 57px;
+      left: 39px;
+    }
+    .lds-roller div:nth-child(4) {
+      animation-delay: -0.144s;
+    }
+    .lds-roller div:nth-child(4):after {
+      top: 58px;
+      left: 32px;
+    }
+    .lds-roller div:nth-child(5) {
+      animation-delay: -0.18s;
+    }
+    .lds-roller div:nth-child(5):after {
+      top: 57px;
+      left: 25px;
+    }
+    .lds-roller div:nth-child(6) {
+      animation-delay: -0.216s;
+    }
+    .lds-roller div:nth-child(6):after {
+      top: 54px;
+      left: 19px;
+    }
+    .lds-roller div:nth-child(7) {
+      animation-delay: -0.252s;
+    }
+    .lds-roller div:nth-child(7):after {
+      top: 50px;
+      left: 14px;
+    }
+    .lds-roller div:nth-child(8) {
+      animation-delay: -0.288s;
+    }
+    .lds-roller div:nth-child(8):after {
+      top: 45px;
+      left: 10px;
+    }
+    @keyframes lds-roller {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    .color {
+      width: 50px;
+      height: 30px;
+    }
+  </style>
+  <script>
+    function showLoading() {
+      var loading = document.getElementById('loading');
+      var className = loading.className;
+      
+      if (className.includes("hide")) {
+        loading.className = "lds-roller";
+      }
+    }
+    
+    function hideLoading() {
+      var loading = document.getElementById('loading');
+      var className = loading.className;
+      
+      if (!className.includes("hide")) {
+        loading.className = "lds-roller hide";
+      }
+    }
+    
+    function renderImageRow(el, data, index) {
+      var container = document.getElementById('pog-container');
+      
+      var noCol = document.createElement("div");
+      noCol.setAttribute("class", "no");
+      var textNo = document.createTextNode((index + 1) * 3);
+      noCol.appendChild(textNo);
+      el.appendChild(noCol);
+      
+      var titleCol = document.createElement("div");
+      titleCol.setAttribute("class", "title");
+      var titleText = document.createTextNode(data.shelf);
+      titleCol.appendChild(titleText);
+      el.appendChild(titleCol);
+      
+      var content = document.createElement("div");
+      content.setAttribute("class", "content");
+      
+      for(var i = 0; i < data.products.length; i++) {
+        var product = data.products[i];
+        
+        for (var j = 0; j < Number(product["Facing"]); j++) {
+          var productImageCol = document.createElement("div");
+          productImageCol.setAttribute("class", "product-image");
+          var productImage = document.createElement("img");
+          productImage.setAttribute("src", product["Product Image"]);
+          productImageCol.appendChild(productImage);
+          content.appendChild(productImageCol);
+        }
+      }
+      el.appendChild(content);
+      container.appendChild(el);
+    }
+    
+    function renderNameRow(el, data, index) {
+      var container = document.getElementById('pog-container');
+      
+      var noCol = document.createElement("div");
+      noCol.setAttribute("class", "no");
+      var textNo = document.createTextNode((index + 1) * 3 + 1);
+      noCol.appendChild(textNo);
+      el.appendChild(noCol);
+      
+      var titleCol = document.createElement("div");
+      titleCol.setAttribute("class", "title");
+      var titleText = document.createTextNode("Name");
+      titleCol.appendChild(titleText);
+      el.appendChild(titleCol);
+      
+      var content = document.createElement("div");
+      content.setAttribute("class", "content");
+      
+      for(var i = 0; i < data.products.length; i++) {
+        var product = data.products[i];
+        
+        var productNameCol = document.createElement("div");
+        var productNameClass = "product-name" + " " + "col-span-" + product["Facing"];
+        productNameCol.setAttribute("class", productNameClass);
+        var nameText = document.createTextNode(product["Product Name"]);
+        productNameCol.appendChild(nameText);
+        content.appendChild(productNameCol);
+      }
+      el.appendChild(content);
+      container.appendChild(el);
+    }
+    
+    function renderUPCRow(el, data, index) {
+      var container = document.getElementById('pog-container');
+      
+      var noCol = document.createElement("div");
+      noCol.setAttribute("class", "no");
+      var textNo = document.createTextNode((index + 1) * 3 + 2);
+      noCol.appendChild(textNo);
+      el.appendChild(noCol);
+      
+      var titleCol = document.createElement("div");
+      titleCol.setAttribute("class", "title");
+      var titleText = document.createTextNode("UPC");
+      titleCol.appendChild(titleText);
+      el.appendChild(titleCol);
+      
+      var content = document.createElement("div");
+      content.setAttribute("class", "content");
+      
+      for(var i = 0; i < data.products.length; i++) {
+        var product = data.products[i];
+        
+        var productUPCCol = document.createElement("div");
+        var productUPCClass = "product-upc" + " " + "col-span-" + product["Facing"];
+        if (product["Status"] == "New") {
+          productUPCClass += " new"
+        }
+        if (product["Core"] == "CORE") {
+          productUPCClass += " core"
+        }
+        productUPCCol.setAttribute("class", productUPCClass);
+        var upcText = document.createTextNode(product["UPC"]);
+        productUPCCol.appendChild(upcText);
+        content.appendChild(productUPCCol);
+      }
+      el.appendChild(content);
+      container.appendChild(el);
+    }
+    
+    function renderCategory(category) {
+      var categoryDiv = document.getElementById('category');
+      categoryDiv.innerHTML = category;
+    }
+  
+    function renderTable(data) {
+      var container = document.getElementById('pog-container');
+      var temp = Object.keys(data).map(function(key) {
+        return {
+          shelf: key,
+          products: data[key],
+        };
+      });
+      
+      for(var i = 0; i < temp.length; i++) {
+        var imageRow = document.createElement("div");
+        imageRow.setAttribute("class", "row");
+        var nameRow = document.createElement("div");
+        nameRow.setAttribute("class", "row");
+        var upcRow = document.createElement("div");
+        upcRow.setAttribute("class", "row");
+        
+        renderImageRow(imageRow, temp[i], i);
+        renderNameRow(nameRow, temp[i], i);
+        renderUPCRow(upcRow, temp[i], i);
+        
+        hideLoading();
+      }
+    };
+    
+    google.script.run
+      .withSuccessHandler(function(category) {
+        renderCategory(category);
+        google.script.run
+          .withSuccessHandler(function(data) {
+             console.log("data", data);
+             renderTable(data);
+           })
+           .getPOGData();
+      })
+      .getCategory();
+  </script>
+</head>
+<body style="min-width: 850px">
+   <div>
+    <div class="row">
+      <div class="no">1</div>
+      <div class="title"></div>
+      <div class="content">
+        <div id="category" class="category"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="no">2</div>
+      <div class="title"></div>
+      <div class="content">
+        <div class="note">Note:
+          <div class="color core"></div> Core
+          <div class="color new"></div> New
+        </div>
+      </div>
+    </div>
+    <div id="pog-container">
+      <div style="text-align: center">
+        <div id="loading" class="lds-roller">
+           <div></div>
+           <div></div>
+           <div></div>
+           <div></div>
+           <div></div>
+           <div></div>
+           <div></div>
+           <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
